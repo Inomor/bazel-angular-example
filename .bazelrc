@@ -1,0 +1,17 @@
+
+build --disk_cache=~/.cache/bazel-disk
+fetch --disk_cache=~/.cache/bazel-disk
+query --disk_cache=~/.cache/bazel-disk
+sync --disk_cache=~/.cache/bazel-disk
+test --disk_cache=~/.cache/bazel-disk
+
+# Make TypeScript and Angular compilation fast, by keeping a few copies of the
+# compiler running as daemons, and cache SourceFile AST's to reduce parse time.
+build --strategy=TypeScriptCompile=worker
+build --strategy=AngularTemplateCompile=worker
+
+test --test_output=errors
+
+# Use the Angular Ivy compiler
+# See https://github.com/angular/angular/blob/master/docs/BAZEL.md#various-flags-used-for-tests
+build --define=angular_ivy_enabled=True

@@ -1,0 +1,33 @@
+load("@io_bazel_rules_sass//:defs.bzl", "multi_sass_binary")
+load("//tools:angular_ts_project.bzl", "ng_ts_project")
+
+package(default_visibility = ["//:__subpackages__"])
+
+# multi_sass_binary can be used to build multiple scss files within one rule
+multi_sass_binary(
+    name = "hello-world-styles",
+    srcs = [
+        "hello-world.component.scss",
+        "secondary-styles.scss",
+    ],
+)
+
+ng_ts_project(
+    name = "hello-world",
+    srcs = [
+        "hello-world.component.ts",
+        "hello-world.module.ts",
+    ],
+    angular_assets = [
+        ":hello-world.component.html",
+        ":hello-world-styles",
+    ],
+    deps = [
+        "//src/lib/shorten",
+        "//src/shared/material",
+        "@npm//@angular/core",
+        "@npm//@angular/forms",
+        "@npm//@angular/router",
+        "@npm//date-fns",
+    ],
+)
